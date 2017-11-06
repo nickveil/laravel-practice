@@ -19,18 +19,19 @@
 
 <p><a href="/games/create">Start a new game</a></p>
 
+<p><strong>Active Games</strong></p>
 <ul>
-    <!--     <li><i class="fa fa-trash-o" aria-hidden="true"></i> <a href="#">Game 1</a> - Day 8, $24.87</li>
-    <li><i class="fa fa-trash-o" aria-hidden="true"></i> <a href="#">Game 2</a> - Ended, $34.33</li> -->
-
-    @foreach ($games as $game)
-
+    @foreach ($active_games as $game)
         <li><a href="/games/{{ $game->id }}">Game {{ $game->id }}</a></li>
-
     @endforeach
-
 </ul>
 
+<p><strong>Finished Games</strong></p>
+<ul>
+    @foreach ($finished_games as $game)
+        <li>Game {{ $game->id }}</li>
+    @endforeach
+</ul>
 
 
 
