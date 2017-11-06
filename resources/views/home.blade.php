@@ -17,12 +17,22 @@
 
 <h2>My Games</h2>
 
-<p><a href="#">Start a new game</a></p>
+<p><a href="/games/create">Start a new game</a></p>
 
 <ul>
-    <li><i class="fa fa-trash-o" aria-hidden="true"></i> <a href="#">Game 1</a> - Day 8, $24.87</li>
-    <li><i class="fa fa-trash-o" aria-hidden="true"></i> <a href="#">Game 2</a> - Ended, $34.33</li>
+    <!--     <li><i class="fa fa-trash-o" aria-hidden="true"></i> <a href="#">Game 1</a> - Day 8, $24.87</li>
+    <li><i class="fa fa-trash-o" aria-hidden="true"></i> <a href="#">Game 2</a> - Ended, $34.33</li> -->
+
+    @foreach ($games as $game)
+
+        <li><a href="/games/{{ $game->id }}">Game {{ $game->id }}</a></li>
+
+    @endforeach
+
 </ul>
+
+
+
 
 <h2>Leader Board</h2>
 
