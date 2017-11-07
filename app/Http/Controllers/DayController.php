@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class GameController extends Controller
+class DayController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,8 +13,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        $games = \App\Game::all();
-        return view('games.index');
+        //
     }
 
     /**
@@ -22,23 +21,29 @@ class GameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        // Create a new game
-        $game = new \App\Game;
-        $game->user_id = \Auth::user()->id;
-        $game->save();
+        $yesterday = \App\Day::find($request->input('yesterday'));
+        $game = $yesterday->game()->first();
 
-        // Create day 1 for the new game
-        $day = new \App\Day;
-        $day->day = 1;
-        $day->game_id = $game->id;
-        $day->condition_id = 3;
-        $day->temperature = 75;
-        $day->save();
+        // Is there time left in the game?
+        if ($yesterday->day < $game->last_day) {
+            // Yes - make a new day
+            $day = new \App\Day;
+            $day->day = $yesterday->day + 1;
+            $day->game_id = $game->id;
+            $day->condition_id = 3;
+            $day->temperature = 75;
+            $day->save();
+            return redirect('/days/' . $day->id);
+        }
+        else {
+            // No - close this game
+            $game->is_done = true;
+            $game->save();
+        }
 
-        // Redirect to day 1 for the new game
-        return redirect('/days/' . $day->id);
+        return redirect('/home');
 
     }
 
@@ -61,14 +66,8 @@ class GameController extends Controller
      */
     public function show($id)
     {
-        $game = \App\Game::find($id);
-        if ($game->is_done) {
-            return view('games.show', compact('game'));
-        }
-        else {
-            $day = $game->current_day();
-            return view('days.edit', compact('game', 'day'));
-        }
+        $day = \App\Day::find($id);
+        return view('days.edit', compact('day'));
     }
 
     /**
