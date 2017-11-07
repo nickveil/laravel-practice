@@ -39,14 +39,11 @@ class DayController extends Controller
             $day = new \App\Day;
             $day->day = $yesterday + 1;
             $day->game_id = $game->id;
-            $day->condition_id = \App\Condition::random_condition();
+            
+            $condition = \App\Condition::random_condition();
 
-
-
-            $day->temperature = $day->condition->base_temperature;
-
-
-
+            $day->condition_id = $condition->id;
+            $day->temperature = $condition->random_temperature();
 
             $day->save();
             return redirect('/days/' . $day->id);
