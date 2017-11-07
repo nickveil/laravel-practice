@@ -5,7 +5,8 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Home</div>
+                <div class="panel-heading">Home
+                </div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -13,7 +14,6 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
 
 <h2>My Games</h2>
 
@@ -33,8 +33,6 @@
     @endforeach
 </ul>
 
-
-
 <h2>Leader Board</h2>
 
 <ul>
@@ -42,8 +40,6 @@
     <li>Mario - $12,000</li>
     <li>Luigi - $8,000</li>
 </ul>
-
-
 
                 </div>
             </div>
