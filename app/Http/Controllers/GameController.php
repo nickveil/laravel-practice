@@ -102,6 +102,8 @@ class GameController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $game = \App\Game::find($id);
+        $game->delete();
+        return redirect('home');
     }
 }

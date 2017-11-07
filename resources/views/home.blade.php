@@ -22,14 +22,28 @@
 <p><strong>Active Games</strong></p>
 <ul>
     @foreach ($active_games as $game)
-        <li><a href="/games/{{ $game->id }}">Game {{ $game->id }}</a></li>
+        <li>
+            <form method="post" action="/games/{{ $game->id }}">
+                {{ method_field('DELETE') }}
+                {{ csrf_field() }}
+                <button class="btn btn-xs btn-default space-right" type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                <a href="/games/{{ $game->id }}">Game {{ $game->id }}</a>
+            </form>
+        </li>
     @endforeach
 </ul>
 
 <p><strong>Finished Games</strong></p>
 <ul>
     @foreach ($finished_games as $game)
-        <li><a href="/games/{{ $game->id }}">Game {{ $game->id }}</a></li>
+        <li>
+            <form method="post" action="/games/{{ $game->id }}">
+                {{ method_field('DELETE') }}
+                {{ csrf_field() }}
+                <button class="btn btn-xs btn-default space-right" type="submit"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                <a href="/games/{{ $game->id }}">Game {{ $game->id }}</a>
+            </form>
+        </li>
     @endforeach
 </ul>
 
