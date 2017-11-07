@@ -12,4 +12,9 @@ class Condition extends Model
       return $this->hasMany('App\Day');
     }
 
+    public static function random_condition() {
+
+      return 2;
+
+    }
 }

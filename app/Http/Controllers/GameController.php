@@ -22,24 +22,14 @@ class GameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         // Create a new game
         $game = new \App\Game;
         $game->user_id = \Auth::user()->id;
         $game->save();
-
-        // Create day 1 for the new game
-        $day = new \App\Day;
-        $day->day = 1;
-        $day->game_id = $game->id;
-        $day->condition_id = 3;
-        $day->temperature = 75;
-        $day->save();
-
-        // Redirect to day 1 for the new game
-        return redirect('/days/' . $day->id);
-
+        $request->session()->put('game_id', $game->id);
+        return redirect('/days/create');
     }
 
     /**

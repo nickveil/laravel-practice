@@ -23,17 +23,31 @@ class DayController extends Controller
      */
     public function create(Request $request)
     {
-        $yesterday = \App\Day::find($request->input('yesterday'));
-        $game = $yesterday->game()->first();
+        $game = \App\Game::find($request->session()->get('game_id'));
+
+        if ($request->input('yesterday')) {
+            $yesterday = $request->input('yesterday');
+        }
+        else {
+            $yesterday = 0;
+        }
+
 
         // Is there time left in the game?
-        if ($yesterday->day < $game->last_day) {
+        if ($yesterday < $game->last_day) {
             // Yes - make a new day
             $day = new \App\Day;
-            $day->day = $yesterday->day + 1;
+            $day->day = $yesterday + 1;
             $day->game_id = $game->id;
-            $day->condition_id = 3;
-            $day->temperature = 75;
+            $day->condition_id = \App\Condition::random_condition();
+
+
+
+            $day->temperature = $day->condition->base_temperature;
+
+
+
+
             $day->save();
             return redirect('/days/' . $day->id);
         }
@@ -103,4 +117,5 @@ class DayController extends Controller
     {
         //
     }
+
 }
