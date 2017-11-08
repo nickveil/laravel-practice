@@ -123,8 +123,9 @@ class DayController extends Controller
         $request->session()->put('yesterday', $day->day);
 
         // TODO: tell the user what happened during today's sale
+        return view('days.summary', compact('day'));
 
-        return redirect('/days/create');
+        // return redirect('/days/create');
     }
 
     /**

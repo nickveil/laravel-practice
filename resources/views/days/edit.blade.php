@@ -1,7 +1,7 @@
 @extends('layouts.app-panel')
 
 @section('title')
-  Game {{ $day->game_id }}, Day {{ $day->day }}
+  Planning: Day {{ $day->day }}
 @endsection
 
 
@@ -12,12 +12,14 @@
 <form class="form-horizontal">  
 
 @component('components.static', [
+  'fieldname' => 'staticCondition',
   'name' => 'Condition',
   'description' => $day->condition->name
   ])
 @endcomponent
 
 @component('components.static', [
+  'fieldname' => 'staticTemperature',
   'name' => 'Temperature',
   'description' => $day->temperature
   ])
@@ -31,7 +33,9 @@
   {{ method_field('PUT') }}
   {{ csrf_field() }}
   <input type="hidden" name="yesterday" value="{{ $day->day }}">
+
 @component('components.static', [
+  'fieldname' => 'staticBalance',
   'name' => 'Balance',
   'description' => $day->starting_balance
   ])
