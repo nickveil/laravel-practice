@@ -25,13 +25,10 @@ class DayController extends Controller
     {
         $game = \App\Game::find($request->session()->get('game_id'));
 
+        $yesterday = 0;
         if ($request->input('yesterday')) {
             $yesterday = $request->input('yesterday');
         }
-        else {
-            $yesterday = 0;
-        }
-
 
         // Is there time left in the game?
         if ($yesterday < $game->last_day) {
