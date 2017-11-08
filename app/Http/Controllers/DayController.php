@@ -113,19 +113,23 @@ class DayController extends Controller
     public function update(Request $request, $id)
     {
         $day = \App\Day::find($id);
+        $day->price = $request->input('resourcePrice') ? $request->input('resourcePrice') : '0.00';
+
+        // TODO: sanity check on price?
 
         // TODO: we need to figure out what was spent on resources
 
         // TODO: we need to figure out what we earned by selling lemonade
+        $day->cups_sold = $this->_random_cups_sold();
 
-        $day->ending_balance = $day->starting_balance;
+        $day->ending_balance = $day->starting_balance + ($day->cups_sold * $day->price);
+
         $day->save();
         $request->session()->put('yesterday', $day->day);
 
         // TODO: tell the user what happened during today's sale
         return view('days.summary', compact('day'));
 
-        // return redirect('/days/create');
     }
 
     /**
@@ -137,6 +141,16 @@ class DayController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+
+
+    private function _random_cups_sold() {
+
+        // TODO: there really should be something random about this number
+
+        return 12;
+
     }
 
 }

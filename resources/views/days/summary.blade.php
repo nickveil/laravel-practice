@@ -9,40 +9,35 @@
 
 <form class="form-horizontal" method="get" action="/days/create">
 
-@component('components.static', [
-  'fieldname' => 'staticLemonadeSold',
-  'name' => 'Lemonade sold',
-  'description' => 'XYZ cups'
+@component('components.summary', [
+  'fieldname' => 'staticCups',
+  'name' => 'Cups of lemonade sold',
+  'description' => $day->cups_sold
 ])
 @endcomponent  
 
-@component('components.static', [
+@component('components.summary', [
+  'fieldname' => 'staticPrice',
+  'name' => 'Price charged per cup',
+  'description' => $day->price
+])
+@endcomponent  
+
+@component('components.summary', [
   'fieldname' => 'staticStartingBalance',
   'name' => 'Starting balance',
   'description' => $day->starting_balance
 ])
 @endcomponent  
 
-@component('components.static', [
+@component('components.summary', [
   'fieldname' => 'staticEndingBalance',
   'name' => 'Ending balance',
   'description' => $day->ending_balance
 ])
 @endcomponent  
 
-@component('components.static', [
-  'fieldname' => 'staticResources',
-  'name' => 'Resources',
-  'description' => '???'
-])
-@endcomponent  
-
-@component('components.static', [
-  'fieldname' => 'staticExpired',
-  'name' => 'Expired',
-  'description' => '??? (ice)'
-])
-@endcomponent  
+{!! $day->resource_table() !!}
 
   <div class="form-group">
     <div class="col-sm-12 text-center">
