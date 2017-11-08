@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Game extends Model
 {
     public $last_day = 7;
+    public $starting_balance = 10;
 
     public function days() {
       return $this->hasMany('App\Day')->orderBy('day', 'desc');

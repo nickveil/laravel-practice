@@ -29,6 +29,7 @@ class GameController extends Controller
         $game->user_id = \Auth::user()->id;
         $game->save();
         $request->session()->put('game_id', $game->id);
+        $request->session()->put('yesterday', 0);
         return redirect('/days/create');
     }
 
@@ -59,6 +60,7 @@ class GameController extends Controller
             // TODO: this code is partially duplicated in DayController@create
             // Is there a way to remove the redundancy?
             $request->session()->put('game_id', $game->id);
+            $request->session()->put('yesterday', $game->current_day()->day);
             return redirect('/days/' . $game->current_day()->id);
         }
     }

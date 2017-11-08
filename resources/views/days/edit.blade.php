@@ -27,12 +27,13 @@
 
 <h3>Resources</h3>
 
-<form method="get" action="/days/create" class="form-horizontal">
+<form method="post" action="/days/{{ $day->id }}" class="form-horizontal">
+  {{ method_field('PUT') }}
+  {{ csrf_field() }}
   <input type="hidden" name="yesterday" value="{{ $day->day }}">
-
 @component('components.static', [
   'name' => 'Balance',
-  'description' => 'TODO'
+  'description' => $day->starting_balance
   ])
 @endcomponent
 
@@ -44,6 +45,13 @@
     ])
   @endcomponent
 @endforeach
+
+@component('components.resource', [
+  'name' => 'Price', 
+  'description' => 'How much to charge for lemonade today', 
+  'placeholder' => '.25'
+  ])
+@endcomponent
 
   <div class="form-group">
     <div class="col-sm-12 text-center">

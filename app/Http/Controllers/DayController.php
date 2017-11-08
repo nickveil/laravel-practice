@@ -25,9 +25,11 @@ class DayController extends Controller
     {
         $game = \App\Game::find($request->session()->get('game_id'));
 
+// return '[' . $request->session()->get('yesterday') . ']';
+
         $yesterday = 0;
-        if ($request->input('yesterday')) {
-            $yesterday = $request->input('yesterday');
+        if ($request->session()->get('yesterday')) {
+            $yesterday = $request->session()->get('yesterday');
         }
 
         // Is there time left in the game?
@@ -36,6 +38,14 @@ class DayController extends Controller
             $day = new \App\Day;
             $day->day = $yesterday + 1;
             $day->game_id = $game->id;
+
+            if ($day->day === 1) {
+                $day->starting_balance = $game->starting_balance;
+            }
+            else {
+                // This reads weird, but it's okay
+                $day->starting_balance = $game->current_day()->ending_balance;
+            }
             
             $condition = \App\Condition::random_condition();
 
@@ -47,6 +57,7 @@ class DayController extends Controller
         }
         else {
             // No - close this game
+            $request->session()->put('yesterday', 0);
             $game->is_done = true;
             $game->save();
         }
@@ -101,7 +112,11 @@ class DayController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $day = \App\Day::find($id);
+        $day->ending_balance = $day->starting_balance + 1;
+        $day->save();
+        $request->session()->put('yesterday', $day->day);
+        return redirect('/days/create');
     }
 
     /**
