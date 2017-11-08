@@ -16,6 +16,10 @@ class Day extends Model
       return $this->belongsTo('App\Condition');
     }
 
+    public function resources() {
+      return $this->belongsToMany('App\Resource');
+    }
+
     public function resource_table() {
 
         $out = '<table class="table">';

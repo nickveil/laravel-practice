@@ -113,11 +113,44 @@ class DayController extends Controller
     public function update(Request $request, $id)
     {
         $day = \App\Day::find($id);
-        $day->price = $request->input('resourcePrice') ? $request->input('resourcePrice') : '0.00';
 
-        // TODO: sanity check on price?
+        // We're about to do a bunch of calculations.
+        // Start by copying starting_balance to ending_balance.
+        $day->ending_balance = $day->starting_balance;
+
+        // TODO: better sanity check on price
+        $day->price = $request->input('resourcePrice') ? $request->input('resourcePrice') : '0.00';
+        if ($day->price < 0) { $day->price = '0.00'; }
+        if ($day->price > 2.5) { $day->price = '2.50'; }
+
 
         // TODO: we need to figure out what was spent on resources
+        $lemons = \App\Resource::where('name', '=', 'Lemons')->first();
+        $today_lemons = $request->input('resourceLemons') ? $request->input('resourceLemons') : 0;
+        if ($today_lemons < 0) {
+            $today_lemons = 0;
+        }
+        if ( ($today_lemons * $lemons->cost) > $day->starting_balance) {
+            $today_lemons = floor($day->starting_balance / $lemons->cost);
+        }
+
+
+
+
+        // TODO: Add lemons to today in day_resource
+
+
+
+
+        // Deduct cost from balance
+        $day->ending_balance = $day->ending_balance - ($today_lemons * $lemons->cost);
+
+
+
+
+
+
+
 
         // TODO: we need to figure out what we earned by selling lemonade
         $day->cups_sold = $this->_random_cups_sold();
