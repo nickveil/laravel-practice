@@ -113,9 +113,17 @@ class DayController extends Controller
     public function update(Request $request, $id)
     {
         $day = \App\Day::find($id);
-        $day->ending_balance = $day->starting_balance + 1;
+
+        // TODO: we need to figure out what was spent on resources
+
+        // TODO: we need to figure out what we earned by selling lemonade
+
+        $day->ending_balance = $day->starting_balance;
         $day->save();
         $request->session()->put('yesterday', $day->day);
+
+        // TODO: tell the user what happened during today's sale
+
         return redirect('/days/create');
     }
 
