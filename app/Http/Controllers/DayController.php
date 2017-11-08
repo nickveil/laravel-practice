@@ -75,7 +75,10 @@ class DayController extends Controller
     public function show($id)
     {
         $day = \App\Day::find($id);
-        return view('days.edit', compact('day'));
+        $resources = \DB::table('resources')
+                ->orderBy('name', 'asc')
+                ->get();
+        return view('days.edit', compact('day', 'resources'));
     }
 
     /**

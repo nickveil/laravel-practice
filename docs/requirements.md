@@ -58,7 +58,7 @@ A version of the classic video game coded in Laravel.
     - carry over to next day
     - sold individually
     - cost $.10
-    - makes 5/6 servings (eeek, math!)
+    - makes 1 serving
 
   * Paper cups 
     - carry over to next day
